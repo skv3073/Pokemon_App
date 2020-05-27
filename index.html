@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokemon Searcher</title>
+    <style>
+        body
+        {
+font-family: Arial, Helvetica, sans-serif;
+background-image: url('https://wallpaperaccess.com/full/8611.jpg');
+        }
+        #main
+        {
+            position: absolute;
+            left: 520px;
+            text-align: center;
+            font-weight: bold;
+            background-image: none;
+            background-color: white;
+            width: 600px;
+            border: black;
+            border-radius: 2px;
+            border-style: dashed;
+
+        }
+        #info
+        {
+            position: absolute;
+            top: 80px;
+            left:625px;
+            height: 50px;
+            width: 425px;
+        }
+        #button
+        {
+            position: absolute;
+            top: 150px;
+            left:625px;
+            height: 50px;
+            width: 425px;
+        }
+        #corner
+        {
+            position: absolute;
+            top:0px;
+            height: 200px;
+        }
+        #other
+        {
+            position: absolute;
+            top:0px;
+            right: 0px;
+            height: 200px;
+        }
+        #show
+        {
+            position: absolute;
+            top:200px;
+            left: 730px;
+            height: 200px;
+            
+        }
+        #display
+        {
+            position: absolute;
+            top: 450px;
+            left:0;
+            font-weight: bold;
+            background-color: white;
+
+
+        }
+        ul
+        {
+list-style-type: none;
+
+        }
+        li{
+            display: inline;
+            margin-right: 246.5px;
+        }
+        #id_number
+        {
+            margin-right:0px;
+        }
+        #id_number_shower
+        {
+            margin-right:0px;
+        }
+        #display2
+        {
+            position: absolute;
+            top: 550px;
+            left:0;
+            font-weight: bold;
+            background-color: white;
+
+
+        }
+    </style>
+</head>
+<body>
+<h1 id = "main">Search For the Pokemon You Want</h1>
+    <input type="text" id = "info" placeholder="Type Pokemon Name">
+    <br>
+    <input type="button" value="submit"  id = "button">
+    <img src="https://cdn.pixabay.com/photo/2016/08/06/07/59/pokemon-go-1574001_1280.png" alt="Pikachu Picture"  id  ="corner">
+    <img src="https://cdn.pixabay.com/photo/2016/07/23/13/18/pokemon-1536849__480.png" alt="Poke Ball" id = "other">
+    <img src="" alt="The Pokemon You Searched" id = "show">
+    <div id ="display">
+        <ul>
+            <li >Pokemon Name</li>
+            <li >Pokemon Type</li>
+            <li >Pokemon Weight</li>
+            <li >Pokemon Abilities</li>
+            <li id="id_number_shower">Pokedex Number</li>
+        </ul>
+    </div>
+    <div id ="display2">
+        <ul>
+            <li id = "name"></li>
+            <li id="type"></li>
+            <li id="weight"></li>
+            <li id="abilities"></li>
+            <li id="id_number"></li>
+        </ul>
+    </div>
+    <script>
+window.onload = function() {
+    var button = document.getElementById("button");
+    var input = document.getElementById("info");
+    button.addEventListener("click", function(){
+        var input_val = input.value;
+        fetch("https://pokeapi.co/api/v2/pokemon/"+input_val+"/").then(res => res.json()).then(data => {
+    console.log(data);
+    document.getElementById("show").src=data.sprites.front_default;
+    document.getElementById("name").innerHTML = data.name;
+    document.getElementById("weight").innerHTML = data.weight;
+    document.getElementById("id_number").innerHTML = data.game_indices[0].game_index;
+    var type_ouput = "";
+    for(var i = 0;  i <data.types.length; i++)
+    {
+type_ouput += " " + data.types[i].type.name;
+    }
+    document.getElementById("type").innerHTML = type_ouput;
+    var abil_ouput = "";
+    for(var i = 0;  i <data.abilities.length; i++)
+    {
+abil_ouput += " " + data.abilities[i].ability.name;
+    }
+    document.getElementById("abilities").innerHTML = abil_ouput;
+})
+.catch(err => alert("Pokemon Does Not Exist"))
+    });
+};
+    </script>
+</body>
+</html>
